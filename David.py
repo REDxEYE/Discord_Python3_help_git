@@ -6,10 +6,12 @@ from tkinter import *
 class Calculator:
 
     def __init__(self):
+        self.no_dup_chars = ['.','*','/']
+        self.no_show_chars = ['=','c','C']
         self.last_val = 0
         self.enter_val = 0
         self.window = Tk()
-        self.window.bind("<Key>",self.keyboard)
+        self.window.bind_all("<Key>",self.keyboard)
         self.display = StringVar()
         entry = Entry(self.window, text=self.display, bg='lightblue')
         entry.bind('<KeyPress>', self.Key)
@@ -33,7 +35,7 @@ class Calculator:
 
             # create buttons with a loop
             button = Button(self.window, text=b,
-                            command=lambda num=self.display, btn=b: num.set(num.get() + btn.strip('=').strip("C")))
+                            command=lambda btn = b:self.add_to_display(btn))
             button.grid(row=r, column=c, sticky=NSEW)
 
             if b == '=':
@@ -60,9 +62,31 @@ class Calculator:
         self.GridConfig(self.window, 7, 4, 80)
         self.window.mainloop()
 
+    def add_to_display(self,char):
+        txt = self.display.get()
+        # print(char)
+        if char in self.no_show_chars:
+            # print('no_show_chars')
+            return
+        elif len(txt)==0 and char not in self.no_show_chars:
+            # print('0 len')
+            self.display.set(txt + char)
+            return
+        elif (char == txt[-1] and char in self.no_dup_chars):
+            return
+
+        else:
+            self.display.set(txt + char)
     def keyboard(self,ev):
-        print(ev.char)
-        # YOUR CODE HERE #
+        # print(ev.char)
+        char = ev.char
+        # print(ord(char))
+        if char in ['7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', '0', '.', '=', '+']:
+            self.add_to_display(char)
+        if char == chr(8):
+            self.Delete()
+        if char == chr(13):
+            self.Calc(ev)
 
     def GridConfig(self,parent, r, c, size):
         _r = 0
@@ -77,7 +101,7 @@ class Calculator:
     def Calc(self,ev = 0):
         try:
 
-            self.display.set(round(eval(self.display.get().strip('0')), 2))
+            self.display.set(round(eval(self.display.get().strip('0')), 4))
 
         except:
             self.display.set("Please enter valid equation")
