@@ -123,7 +123,7 @@ if __name__ == '__main__':
     arena = Arena([knight,knight1, dragon,dragon1])
     o = sys.stdout
     sys.stdout = None
-    for _ in range(250):
+    for _ in range(1000):
         arena.fight()
     sys.stdout = o
     print('\n============SCORE BOARD============')
