@@ -9,6 +9,7 @@ class Calculator:
         self.last_val = 0
         self.enter_val = 0
         self.window = Tk()
+        self.window.bind("<Key>",self.keyboard)
         self.display = StringVar()
         entry = Entry(self.window, text=self.display, bg='lightblue')
         entry.bind('<KeyPress>', self.Key)
@@ -58,6 +59,11 @@ class Calculator:
         # Edit grid
         self.GridConfig(self.window, 7, 4, 80)
         self.window.mainloop()
+
+    def keyboard(self,ev):
+        print(ev.char)
+        # YOUR CODE HERE #
+
     def GridConfig(self,parent, r, c, size):
         _r = 0
         _c = 0
