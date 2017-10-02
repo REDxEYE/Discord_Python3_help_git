@@ -80,13 +80,13 @@ class Calculator:
         self.window.destroy()
 
     def Check(self,event):
+        char = event.widget.cget("text")
+        # print(self.enter_val)
 
-        print(self.enter_val)
-
-        if self.enter_val == self.last_val:
+        if char == self.last_val:
             self.Delete()
-        else:
-            self.last_val = self.enter_val
+        # else:
+        #     char = self.enter_val
 
     def Clear(self,event):
         self.display.set('')
